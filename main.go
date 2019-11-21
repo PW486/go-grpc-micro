@@ -14,25 +14,28 @@ type Article struct {
 
 var articles []Article
 
+func getHandler(c *gin.Context) {
+	// articles = append(articles, Article{Title: "testTitle", Text: "testText"})
+
+	c.JSON(200, gin.H{"data": articles})
+}
+
+func postHandler(c *gin.Context) {
+	var newArticle Article
+	if err := c.ShouldBindJSON(&newArticle); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	articles = append(articles, newArticle)
+
+	c.JSON(201, gin.H{"data": newArticle})
+}
+
 func setupRouter() *gin.Engine {
 	r := gin.Default()
 
-	r.GET("/", func(c *gin.Context) {
-		// articles = append(articles, Article{Title: "testTitle", Text: "testText"})
-
-		c.JSON(200, gin.H{"data": articles})
-	})
-
-	r.POST("/", func(c *gin.Context) {
-		var newArticle Article
-		if err := c.ShouldBindJSON(&newArticle); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-		articles = append(articles, newArticle)
-
-		c.JSON(201, gin.H{"data": newArticle})
-	})
+	r.GET("/", getHandler)
+	r.POST("/", postHandler)
 
 	return r
 }
