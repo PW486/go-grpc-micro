@@ -6,18 +6,22 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
-var DB *gorm.DB
+var db *gorm.DB
 
-func DBopen() {
+func Service() *gorm.DB {
+	return db
+}
+
+func Open() {
 	var err error
-	DB, err = gorm.Open("sqlite3", "../test.db")
+	db, err = gorm.Open("sqlite3", "../test.db")
 	if err != nil {
 		panic("failed to connect database")
 	}
 }
 
-func DBmigraion() {
-	if DB != nil {
-		DB.AutoMigrate(&model.Article{})
+func Migration() {
+	if db != nil {
+		db.AutoMigrate(&model.Article{})
 	}
 }

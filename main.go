@@ -10,7 +10,7 @@ import (
 
 func getHandler(c *gin.Context) {
 	var articles []model.Article
-	db.DB.Find(&articles)
+	db.Service().Find(&articles)
 
 	c.JSON(200, gin.H{"data": articles})
 }
@@ -22,7 +22,7 @@ func postHandler(c *gin.Context) {
 		return
 	}
 
-	db.DB.Create(&newArticle)
+	db.Service().Create(&newArticle)
 
 	c.JSON(201, gin.H{"data": newArticle})
 }
@@ -37,8 +37,8 @@ func setupRouter() *gin.Engine {
 }
 
 func main() {
-	db.DBopen()
-	db.DBmigraion()
+	db.Open()
+	db.Migration()
 
 	r := setupRouter()
 	r.Run(":8080")
