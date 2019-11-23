@@ -9,6 +9,8 @@ curl -v -X POST http://localhost:8080 -H 'content-type: application/json' -d '{ 
 ## TODO
 - jwt-go
 - Dockerize
+- API Gateway to REST Server
+- gRPC + Microservice (Server is a Client)
 
 ## Reference
 - https://github.com/gin-gonic/gin
