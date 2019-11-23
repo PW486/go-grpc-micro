@@ -6,8 +6,14 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/PW486/gost/db"
 	"github.com/stretchr/testify/assert"
 )
+
+func TestMain(t *testing.T) {
+	db.Open()
+	db.Migration()
+}
 
 func TestSuccessGetRootRoute(t *testing.T) {
 	router := setupRouter()
