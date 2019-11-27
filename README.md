@@ -1,16 +1,18 @@
-# Untitled (Gost: Go-First)
+# Go gRPC Microservice (go-grpc-micro)
 
-> My First Go Project
+> Microservice implemented in Go with gRPC, REST.
 
 ```sh
-curl -v -X POST http://localhost:8080 -H 'content-type: application/json' -d '{ "title": "TestTitle", "text": "TextText" }'
+curl -v -X POST http://localhost:8080 -H 'Content-Type: application/json' -d '{ "title": "TestTitle", "text": "TextText" }'
 ```
 
 ## TODO
-- jwt-go
-- Dockerize
-- API Gateway to REST Server
+- jwt-go (Account: uuid, id `unique string`, name, password `hash`, friend_id)
+- API Gateway to REST Server (Account)
 - gRPC + Microservice (Server is a Client)
+  - Account 'friend_id' column connection -> get -> merge
+- Dockerize
+- Viper
 
 ## Reference
 - https://github.com/gin-gonic/gin
