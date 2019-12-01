@@ -22,6 +22,6 @@ func Open() {
 
 func Migration() {
 	if db != nil {
-		db.AutoMigrate(&model.Article{})
+		db.AutoMigrate(&model.Account{})
 	}
 }

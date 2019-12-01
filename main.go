@@ -6,25 +6,27 @@ import (
 	"github.com/PW486/gost/db"
 	"github.com/PW486/gost/model"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 func getHandler(c *gin.Context) {
-	var articles []model.Article
-	db.Service().Find(&articles)
+	var accounts []model.Account
+	db.Service().Find(&accounts)
 
-	c.JSON(200, gin.H{"data": articles})
+	c.JSON(200, gin.H{"data": accounts})
 }
 
 func postHandler(c *gin.Context) {
-	var newArticle model.Article
-	if err := c.ShouldBindJSON(&newArticle); err != nil {
+	var newAccount model.Account
+	if err := c.ShouldBindJSON(&newAccount); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	newAccount.ID, _ = uuid.NewUUID()
 
-	db.Service().Create(&newArticle)
+	db.Service().Create(&newAccount)
 
-	c.JSON(201, gin.H{"data": newArticle})
+	c.JSON(201, gin.H{"data": newAccount})
 }
 
 func setupRouter() *gin.Engine {

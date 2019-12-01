@@ -3,7 +3,7 @@
 > Microservice implemented in Go with gRPC, REST.
 
 ```sh
-curl -v -X POST http://localhost:8080 -H 'Content-Type: application/json' -d '{ "title": "TestTitle", "text": "TextText" }'
+curl -v -X POST http://localhost:8080 -H 'Content-Type: application/json' -d '{ "email": "TestEmail", "name": "TextName" }'
 ```
 
 ## TODO

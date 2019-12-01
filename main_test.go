@@ -29,7 +29,7 @@ func TestSuccessGetRootRoute(t *testing.T) {
 func TestSuccessCreateRootRoute(t *testing.T) {
 	router := setupRouter()
 
-	var jsonStr = []byte(`{ "title": "manu2", "text": "hello2" }`)
+	var jsonStr = []byte(`{ "email": "TestEmail", "name": "TestName" }`)
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/", bytes.NewBuffer(jsonStr))
 	req.Header.Add("Content-Type", "application/json")
@@ -42,7 +42,7 @@ func TestSuccessCreateRootRoute(t *testing.T) {
 func TestValidationErrorCreateRootRoute(t *testing.T) {
 	router := setupRouter()
 
-	var jsonStr = []byte(`{ "title": "manu2" }`)
+	var jsonStr = []byte(`{ "email": "TestEmail" }`)
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/", bytes.NewBuffer(jsonStr))
 	req.Header.Add("Content-Type", "application/json")
