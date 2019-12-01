@@ -8,14 +8,15 @@ curl -v -X POST http://localhost:8080/login -H 'Content-Type: application/json' 
 ```
 
 ## TODO
-- jwt-go (Account: uuid, id `unique string`, name, password `hash`, friend_id)
 - API Gateway to REST Server (Account)
 - gRPC + Microservice (Server is a Client)
-  - Account 'friend_id' column connection -> get -> merge
+  - Account 'match' column connection -> get -> merge
 - Dockerize
 - Viper
 
 ## Reference
 - https://github.com/gin-gonic/gin
+- https://github.com/jinzhu/gorm
+- https://github.com/dgrijalva/jwt-go
 - https://github.com/EDDYCJY/go-gin-example
 - https://github.com/golang-standards/project-layout

@@ -64,3 +64,29 @@ func TestLogInSucceed(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 }
+
+func TestLogInFailed(t *testing.T) {
+	router := setupRouter()
+
+	var jsonStr = []byte(`{ "email": "TestEmail", "password": "aaa" }`)
+	w := httptest.NewRecorder()
+	req, _ := http.NewRequest("POST", "/login", bytes.NewBuffer(jsonStr))
+	req.Header.Add("Content-Type", "application/json")
+
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusBadRequest, w.Code)
+}
+
+func TestLogInValidationFailed(t *testing.T) {
+	router := setupRouter()
+
+	var jsonStr = []byte(`{ "email": "TestEmail" }`)
+	w := httptest.NewRecorder()
+	req, _ := http.NewRequest("POST", "/login", bytes.NewBuffer(jsonStr))
+	req.Header.Add("Content-Type", "application/json")
+
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusBadRequest, w.Code)
+}

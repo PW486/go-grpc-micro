@@ -6,6 +6,7 @@ import (
 	"github.com/PW486/gost/db"
 	"github.com/PW486/gost/dto"
 	"github.com/PW486/gost/model"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
@@ -51,7 +52,18 @@ func logInHandler(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, gin.H{"data": "Welcome!"})
+	mySigningKey := []byte("AllYourBase")
+
+	// Create the Claims
+	claims := &jwt.StandardClaims{
+		ExpiresAt: 15000,
+		Issuer:    "test",
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	ss, _ := token.SignedString(mySigningKey)
+
+	c.JSON(200, gin.H{"token": ss})
 }
 
 func setupRouter() *gin.Engine {
