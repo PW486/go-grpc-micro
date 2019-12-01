@@ -4,9 +4,11 @@ import (
 	"net/http"
 
 	"github.com/PW486/gost/db"
+	"github.com/PW486/gost/dto"
 	"github.com/PW486/gost/model"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func getHandler(c *gin.Context) {
@@ -17,12 +19,17 @@ func getHandler(c *gin.Context) {
 }
 
 func postHandler(c *gin.Context) {
-	var newAccount model.Account
-	if err := c.ShouldBindJSON(&newAccount); err != nil {
+	var createAccountDTO dto.CreateAccountDTO
+	if err := c.ShouldBindJSON(&createAccountDTO); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	var newAccount model.Account
 	newAccount.ID, _ = uuid.NewUUID()
+	newAccount.Email = createAccountDTO.Email
+	newAccount.Name = createAccountDTO.Name
+	newAccount.Password, _ = bcrypt.GenerateFromPassword([]byte(createAccountDTO.Password), 10)
 
 	db.Service().Create(&newAccount)
 

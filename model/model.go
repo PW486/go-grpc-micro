@@ -12,8 +12,8 @@ type Account struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt *time.Time
-	Email     string `json:"email" binding:"required" gorm:"unique;not null"`
-	Name      string `json:"name" binding:"required" gorm:"unique;not null"`
-	Password  string
-	Match     uuid.UUID
+	Email     string `gorm:"unique;not null"`
+	Name      string `gorm:"unique;not null"`
+	Password  []byte `gorm:"not null"`
+	Match     *uuid.UUID
 }
