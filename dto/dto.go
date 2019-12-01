@@ -6,3 +6,9 @@ type CreateAccountDTO struct {
 	Name     string `json:"name" binding:"required"`
 	Password string `json:"password" binding:"required"`
 }
+
+// LogInDTO is awesome
+type LogInDTO struct {
+	Email    string `json:"email" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}

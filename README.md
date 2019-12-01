@@ -4,6 +4,7 @@
 
 ```sh
 curl -v -X POST http://localhost:8080 -H 'Content-Type: application/json' -d '{ "email": "TestEmail", "name": "TestName", "password": "abc" }'
+curl -v -X POST http://localhost:8080/login -H 'Content-Type: application/json' -d '{ "email": "TestEmail", "password": "abc" }'
 ```
 
 ## TODO

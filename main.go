@@ -36,11 +36,30 @@ func postHandler(c *gin.Context) {
 	c.JSON(201, gin.H{"data": newAccount})
 }
 
+func logInHandler(c *gin.Context) {
+	var logInDTO dto.LogInDTO
+	if err := c.ShouldBindJSON(&logInDTO); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	var account model.Account
+	db.Service().Where("Email = ?", logInDTO.Email).First(&account)
+
+	if err := bcrypt.CompareHashAndPassword(account.Password, []byte(logInDTO.Password)); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(200, gin.H{"data": "Welcome!"})
+}
+
 func setupRouter() *gin.Engine {
 	r := gin.Default()
 
 	r.GET("/", getHandler)
 	r.POST("/", postHandler)
+	r.POST("/login", logInHandler)
 
 	return r
 }

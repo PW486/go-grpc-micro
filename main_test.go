@@ -29,7 +29,7 @@ func TestSuccessGetRootRoute(t *testing.T) {
 func TestSuccessCreateRootRoute(t *testing.T) {
 	router := setupRouter()
 
-	var jsonStr = []byte(`{ "email": "TestEmail", "name": "TestName" }`)
+	var jsonStr = []byte(`{ "email": "TestEmail", "name": "TestName", "password": "abc" }`)
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/", bytes.NewBuffer(jsonStr))
 	req.Header.Add("Content-Type", "application/json")
@@ -50,4 +50,17 @@ func TestValidationErrorCreateRootRoute(t *testing.T) {
 	router.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
+}
+
+func TestLogInSucceed(t *testing.T) {
+	router := setupRouter()
+
+	var jsonStr = []byte(`{ "email": "TestEmail", "password": "abc" }`)
+	w := httptest.NewRecorder()
+	req, _ := http.NewRequest("POST", "/login", bytes.NewBuffer(jsonStr))
+	req.Header.Add("Content-Type", "application/json")
+
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
 }
