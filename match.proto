@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package match;
+
+service Match {
+  rpc GetAccount (GetAccountRequest) returns (Account) {}
+}
+
+message GetAccountRequest {
+  string id = 1;
+}
+
+message Account {
+  string id = 1;
+  string email = 2;
+  string name = 3;
+}
