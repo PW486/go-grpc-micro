@@ -1,15 +1,19 @@
 package main
 
 import (
+	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/PW486/gost/db"
 	"github.com/PW486/gost/dto"
+	pb "github.com/PW486/gost/match"
 	"github.com/PW486/gost/model"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
+	"google.golang.org/grpc"
 )
 
 func getHandler(c *gin.Context) {
@@ -80,6 +84,32 @@ func main() {
 	db.Open()
 	db.Migration()
 
+	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+	defer conn.Close()
+	client := pb.NewMatchClient(conn)
+
 	r := setupRouter()
+
+	r.GET("/:match", func(c *gin.Context) {
+		match := c.Param("match")
+
+		// Contact the server and print out its response.
+		req := &pb.GetAccountRequest{Id: match}
+		res, err := client.GetAccount(c, req)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+			"result": fmt.Sprint(res),
+		})
+	})
+
 	r.Run(":8080")
 }

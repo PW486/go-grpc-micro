@@ -9,11 +9,8 @@ protoc -I match/ match/match.proto --go_out=plugins=grpc:match
 ```
 
 ## TODO
-- gRPC + Microservice (Server is a Client)
-  - Account 'match' column connection -> get -> merge
+- Refactoring + Viper
 - Dockerize
-- Viper
-- API Gateway to REST Server (Account)
 
 ## Reference
 - https://github.com/gin-gonic/gin
@@ -21,4 +18,4 @@ protoc -I match/ match/match.proto --go_out=plugins=grpc:match
 - https://github.com/dgrijalva/jwt-go
 - https://github.com/EDDYCJY/go-gin-example
 - https://github.com/golang-standards/project-layout
-- https://grpc.io/docs/tutorials/basic/go/
+- https://grpc.io/docs/tutorials/basic/go
