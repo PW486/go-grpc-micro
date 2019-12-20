@@ -1,4 +1,4 @@
-package main
+package server
 
 import (
 	"context"
@@ -20,7 +20,7 @@ func (s *server) GetAccount(ctx context.Context, in *pb.GetAccountRequest) (*pb.
 
 	return &pb.Account{Id: in.Id, Email: account.Email, Name: account.Name}, nil
 }
-func main() {
+func Serve() {
 	db := database.Init()
 	db.AutoMigrate(&entity.Account{})
 
