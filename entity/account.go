@@ -1,4 +1,4 @@
-package model
+package entity
 
 import (
 	"time"
@@ -6,7 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
-// Account is main model
+// Account entity
 type Account struct {
 	ID        uuid.UUID `gorm:"primary_key"`
 	CreatedAt time.Time

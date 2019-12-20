@@ -1,4 +1,4 @@
-package dto
+package account
 
 // CreateAccountDTO is awesome
 type CreateAccountDTO struct {

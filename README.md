@@ -9,7 +9,6 @@ protoc -I match/ match/match.proto --go_out=plugins=grpc:match
 ```
 
 ## TODO
-- Refactoring + Viper
 - Dockerize
 
 ## Reference

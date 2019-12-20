@@ -6,17 +6,19 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/PW486/gost/db"
+	"github.com/PW486/gost/database"
+	"github.com/PW486/gost/entity"
+	"github.com/PW486/gost/router"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestMain(t *testing.T) {
-	db.Open()
-	db.Migration()
+	db := database.Init()
+	db.AutoMigrate(&entity.Account{})
 }
 
 func TestSuccessGetRootRoute(t *testing.T) {
-	router := setupRouter()
+	router := router.Init()
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", "/", nil)
@@ -27,7 +29,7 @@ func TestSuccessGetRootRoute(t *testing.T) {
 }
 
 func TestSuccessCreateRootRoute(t *testing.T) {
-	router := setupRouter()
+	router := router.Init()
 
 	var jsonStr = []byte(`{ "email": "TestEmail", "name": "TestName", "password": "abc" }`)
 	w := httptest.NewRecorder()
@@ -40,7 +42,7 @@ func TestSuccessCreateRootRoute(t *testing.T) {
 }
 
 func TestValidationErrorCreateRootRoute(t *testing.T) {
-	router := setupRouter()
+	router := router.Init()
 
 	var jsonStr = []byte(`{ "email": "TestEmail" }`)
 	w := httptest.NewRecorder()
@@ -53,7 +55,7 @@ func TestValidationErrorCreateRootRoute(t *testing.T) {
 }
 
 func TestLogInSucceed(t *testing.T) {
-	router := setupRouter()
+	router := router.Init()
 
 	var jsonStr = []byte(`{ "email": "TestEmail", "password": "abc" }`)
 	w := httptest.NewRecorder()
@@ -66,7 +68,7 @@ func TestLogInSucceed(t *testing.T) {
 }
 
 func TestLogInFailed(t *testing.T) {
-	router := setupRouter()
+	router := router.Init()
 
 	var jsonStr = []byte(`{ "email": "TestEmail", "password": "aaa" }`)
 	w := httptest.NewRecorder()
@@ -79,7 +81,7 @@ func TestLogInFailed(t *testing.T) {
 }
 
 func TestLogInValidationFailed(t *testing.T) {
-	router := setupRouter()
+	router := router.Init()
 
 	var jsonStr = []byte(`{ "email": "TestEmail" }`)
 	w := httptest.NewRecorder()

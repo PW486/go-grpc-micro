@@ -5,9 +5,9 @@ import (
 	"log"
 	"net"
 
-	"github.com/PW486/gost/db"
-	pb "github.com/PW486/gost/match"
-	"github.com/PW486/gost/model"
+	"github.com/PW486/gost/database"
+	"github.com/PW486/gost/entity"
+	pb "github.com/PW486/gost/protobuf/match"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -15,14 +15,14 @@ import (
 type server struct{}
 
 func (s *server) GetAccount(ctx context.Context, in *pb.GetAccountRequest) (*pb.Account, error) {
-	var account model.Account
-	db.Service().Where("ID = ?", in.Id).First(&account)
+	var account entity.Account
+	database.GetDB().Where("ID = ?", in.Id).First(&account)
 
 	return &pb.Account{Id: in.Id, Email: account.Email, Name: account.Name}, nil
 }
 func main() {
-	db.Open()
-	db.Migration()
+	db := database.Init()
+	db.AutoMigrate(&entity.Account{})
 
 	lis, err := net.Listen("tcp", ":50051")
 	if err != nil {
