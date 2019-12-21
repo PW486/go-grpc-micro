@@ -10,7 +10,7 @@ func Init() *gin.Engine {
 	r := gin.Default()
 
 	r.GET("/accounts", account.GetHandler)
-	r.GET("/accounts/:id", account.GetByIdHandler)
+	r.GET("/accounts/:id", account.GetByIDHandler)
 	r.POST("/accounts", account.PostHandler)
 	r.DELETE("/accounts/:id", account.DeleteHandler)
 

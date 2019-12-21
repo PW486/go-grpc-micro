@@ -8,6 +8,7 @@ import (
 	"google.golang.org/grpc"
 )
 
+// GetAccount takes another service account.
 func GetAccount(c *gin.Context, id string) *match.Account {
 	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
 	if err != nil {

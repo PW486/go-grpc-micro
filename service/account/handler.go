@@ -11,6 +11,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// GetHandler finds all accounts.
 func GetHandler(c *gin.Context) {
 	var accounts []entity.Account
 	database.GetDB().Find(&accounts)
@@ -18,7 +19,8 @@ func GetHandler(c *gin.Context) {
 	c.JSON(200, gin.H{"data": accounts})
 }
 
-func GetByIdHandler(c *gin.Context) {
+// GetByIDHandler finds one account.
+func GetByIDHandler(c *gin.Context) {
 	id := c.Param("id")
 
 	var account entity.Account
@@ -29,6 +31,7 @@ func GetByIdHandler(c *gin.Context) {
 	c.JSON(200, gin.H{"data": account, "match": matchAccount})
 }
 
+// PostHandler creates one account.
 func PostHandler(c *gin.Context) {
 	var createAccountDTO CreateAccountDTO
 	if err := c.ShouldBindJSON(&createAccountDTO); err != nil {
@@ -48,6 +51,7 @@ func PostHandler(c *gin.Context) {
 	c.JSON(201, gin.H{"data": newAccount})
 }
 
+// DeleteHandler removes one account.
 func DeleteHandler(c *gin.Context) {
 	id := c.Param("id")
 
@@ -57,6 +61,7 @@ func DeleteHandler(c *gin.Context) {
 	c.JSON(200, gin.H{"data": account})
 }
 
+// LogInHandler verifies the account and returns token.
 func LogInHandler(c *gin.Context) {
 	var logInDTO LogInDTO
 	if err := c.ShouldBindJSON(&logInDTO); err != nil {
@@ -74,7 +79,6 @@ func LogInHandler(c *gin.Context) {
 
 	mySigningKey := []byte("AllYourBase")
 
-	// Create the Claims
 	claims := &jwt.StandardClaims{
 		ExpiresAt: 15000,
 		Issuer:    "test",
