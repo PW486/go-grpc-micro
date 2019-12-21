@@ -6,7 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
-// Account entity
+// Account entity contains personal infomation.
 type Account struct {
 	ID        uuid.UUID `gorm:"primary_key"`
 	CreatedAt time.Time

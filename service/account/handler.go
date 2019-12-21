@@ -1,18 +1,14 @@
 package account
 
 import (
-	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/PW486/gost/database"
 	"github.com/PW486/gost/entity"
-	pb "github.com/PW486/gost/protobuf/match"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
-	"google.golang.org/grpc"
 )
 
 func GetHandler(c *gin.Context) {
@@ -20,6 +16,17 @@ func GetHandler(c *gin.Context) {
 	database.GetDB().Find(&accounts)
 
 	c.JSON(200, gin.H{"data": accounts})
+}
+
+func GetByIdHandler(c *gin.Context) {
+	id := c.Param("id")
+
+	var account entity.Account
+	database.GetDB().Where("ID = ?", id).First(&account)
+
+	matchAccount := GetAccount(c, account.Match.String())
+
+	c.JSON(200, gin.H{"data": account, "match": matchAccount})
 }
 
 func PostHandler(c *gin.Context) {
@@ -34,10 +41,20 @@ func PostHandler(c *gin.Context) {
 	newAccount.Email = createAccountDTO.Email
 	newAccount.Name = createAccountDTO.Name
 	newAccount.Password, _ = bcrypt.GenerateFromPassword([]byte(createAccountDTO.Password), 10)
+	newAccount.Match = &createAccountDTO.Match
 
 	database.GetDB().Create(&newAccount)
 
 	c.JSON(201, gin.H{"data": newAccount})
+}
+
+func DeleteHandler(c *gin.Context) {
+	id := c.Param("id")
+
+	var account entity.Account
+	database.GetDB().Where("ID = ?", id).First(&account)
+
+	c.JSON(200, gin.H{"data": account})
 }
 
 func LogInHandler(c *gin.Context) {
@@ -67,29 +84,4 @@ func LogInHandler(c *gin.Context) {
 	ss, _ := token.SignedString(mySigningKey)
 
 	c.JSON(200, gin.H{"token": ss})
-}
-
-func GetMatchHandler(c *gin.Context) {
-	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("did not connect: %v", err)
-	}
-	defer conn.Close()
-
-	client := pb.NewMatchClient(conn)
-
-	match := c.Param("match")
-
-	req := &pb.GetAccountRequest{Id: match}
-	res, err := client.GetAccount(c, req)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{
-		"result": fmt.Sprint(res),
-	})
 }

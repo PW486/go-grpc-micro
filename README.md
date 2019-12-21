@@ -3,7 +3,7 @@
 > Microservice implemented in Go with gRPC, REST.
 
 ```sh
-curl -v -X POST http://localhost:8080 -H 'Content-Type: application/json' -d '{ "email": "TestEmail", "name": "TestName", "password": "abc" }'
+curl -v -X POST http://localhost:8080/accounts -H 'Content-Type: application/json' -d '{ "email": "TestEmail55", "name": "TestName55", "password": "abc", "match": "9d01cbba-1440-11ea-b252-629c5497222b" }'
 curl -v -X POST http://localhost:8080/login -H 'Content-Type: application/json' -d '{ "email": "TestEmail", "password": "abc" }'
 protoc -I match/ match/match.proto --go_out=plugins=grpc:match
 ```

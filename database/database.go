@@ -1,22 +1,25 @@
 package database
 
 import (
+	"log"
+
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
 var database *gorm.DB
 
+// Init is to open and return the database.
 func Init() *gorm.DB {
 	db, err := gorm.Open("sqlite3", "../test.db")
 	if err != nil {
-		panic("failed to connect database.")
+		log.Fatal(err)
 	}
-	database = db
 
+	database = db
 	return database
 }
 
+// GetDB is only to return the database.
 func GetDB() *gorm.DB {
 	return database
 }
