@@ -51,10 +51,9 @@ func PostHandler(c *gin.Context) {
 func DeleteHandler(c *gin.Context) {
 	id := c.Param("id")
 
-	var account entity.Account
-	database.GetDB().Where("ID = ?", id).First(&account)
+	database.GetDB().Where("ID = ?", id).Delete(&entity.Account{})
 
-	c.JSON(200, gin.H{"data": account})
+	c.JSON(200, "ok")
 }
 
 // LogInHandler verifies the account and returns token.

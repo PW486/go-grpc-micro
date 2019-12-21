@@ -24,6 +24,7 @@ type GetAccountResponse struct {
 	ID        uuid.UUID  `json:"id"`
 	CreatedAt time.Time  `json:"createdAt"`
 	UpdatedAt time.Time  `json:"updatedAt"`
+	DeletedAt *time.Time `json:"deletedAt"`
 	Email     string     `json:"email"`
 	Name      string     `json:"name"`
 	Match     *uuid.UUID `json:"match"`

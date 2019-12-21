@@ -11,14 +11,14 @@ import (
 
 func GetAccounts() *[]GetAccountResponse {
 	var accounts []GetAccountResponse
-	database.GetDB().Table("Accounts").Scan(&accounts)
+	database.GetDB().Table("accounts").Where("deleted_at is null").Scan(&accounts)
 
 	return &accounts
 }
 
 func GetAccountById(id string) *GetAccountResponse {
 	var account GetAccountResponse
-	database.GetDB().Table("Accounts").Where("ID = ?", id).Scan(&account)
+	database.GetDB().Table("accounts").Where("id = ?", id).Scan(&account)
 
 	return &account
 }
@@ -27,7 +27,8 @@ func GetAccountById(id string) *GetAccountResponse {
 func GetMatchAccountByID(c *gin.Context, id string) *match.Account {
 	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return nil
 	}
 	defer conn.Close()
 
