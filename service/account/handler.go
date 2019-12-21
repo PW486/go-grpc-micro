@@ -11,24 +11,20 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// GetHandler finds all accounts.
-func GetHandler(c *gin.Context) {
-	var accounts []entity.Account
-	database.GetDB().Find(&accounts)
+// GetAccountsHandler finds all accounts.
+func GetAccountsHandler(c *gin.Context) {
+	accounts := GetAccounts()
 
-	c.JSON(200, gin.H{"data": accounts})
+	c.JSON(200, gin.H{"accounts": accounts})
 }
 
-// GetByIDHandler finds one account.
-func GetByIDHandler(c *gin.Context) {
+// GetAccountByIDHandler finds one account.
+func GetAccountByIDHandler(c *gin.Context) {
 	id := c.Param("id")
+	account := GetAccountById(id)
+	matchAccount := GetMatchAccountByID(c, account.Match.String())
 
-	var account entity.Account
-	database.GetDB().Where("ID = ?", id).First(&account)
-
-	matchAccount := GetAccount(c, account.Match.String())
-
-	c.JSON(200, gin.H{"data": account, "match": matchAccount})
+	c.JSON(200, gin.H{"account": account, "match": matchAccount})
 }
 
 // PostHandler creates one account.

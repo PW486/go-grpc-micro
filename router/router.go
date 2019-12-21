@@ -9,8 +9,8 @@ import (
 func Init() *gin.Engine {
 	r := gin.Default()
 
-	r.GET("/accounts", account.GetHandler)
-	r.GET("/accounts/:id", account.GetByIDHandler)
+	r.GET("/accounts", account.GetAccountsHandler)
+	r.GET("/accounts/:id", account.GetAccountByIDHandler)
 	r.POST("/accounts", account.PostHandler)
 	r.DELETE("/accounts/:id", account.DeleteHandler)
 
