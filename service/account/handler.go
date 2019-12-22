@@ -51,7 +51,7 @@ func PostAccountHandler(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"account": account})
+	c.JSON(http.StatusCreated, gin.H{"accountId": account.ID})
 }
 
 // DeleteAccountHandler removes one account.
