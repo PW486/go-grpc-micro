@@ -12,7 +12,7 @@
 
 ### Set Environments
 
-Change values in `app.ini` file.
+Change values in `app.ini` file. Set other ports and other `MatchHost`.
 
 ### Install, Build and Run
 
