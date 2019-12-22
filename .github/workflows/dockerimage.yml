@@ -1,0 +1,17 @@
+name: Docker Image CI
+
+on: [push]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag go-grpc-micro:$(date +%s)
+      
+    - name: Run the Docker image
+      run: docker run --expose 8080 go-grpc-micro
