@@ -12,7 +12,7 @@ func Init() *gin.Engine {
 	r.GET("/accounts", account.GetAccountsHandler)
 	r.GET("/accounts/:id", account.GetAccountByIDHandler)
 	r.POST("/accounts", account.PostAccountHandler)
-	r.DELETE("/accounts/:id", account.DeleteHandler)
+	r.DELETE("/accounts/:id", account.DeleteAccountHandler)
 
 	r.POST("/login", account.LogInHandler)
 

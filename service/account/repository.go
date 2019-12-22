@@ -67,11 +67,17 @@ func CreateAccount(payload CreateAccountDTO) (*entity.Account, error) {
 	newAccount.Password = password
 	newAccount.Match = payload.Match
 
-	database.GetDB().Create(&newAccount)
+	if err := database.GetDB().Create(&newAccount).Error; err != nil {
+		return nil, err
+	}
 
 	return &newAccount, nil
 }
 
-func RemoveAccount(id string) {
+func RemoveAccount(account *FindAccountResponse) error {
+	if err := database.GetDB().Where("ID = ?", account.ID).Delete(&entity.Account{}).Error; err != nil {
+		return err
+	}
 
+	return nil
 }

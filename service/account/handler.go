@@ -55,11 +55,21 @@ func PostAccountHandler(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"account": account})
 }
 
-// DeleteHandler removes one account.
-func DeleteHandler(c *gin.Context) {
+// DeleteAccountHandler removes one account.
+func DeleteAccountHandler(c *gin.Context) {
 	id := c.Param("id")
+	account := FindAccountByID(id)
+	if account == nil {
+		c.JSON(http.StatusNotFound, gin.H{"message": "Account Not Found"})
+		return
+	}
 
-	database.GetDB().Where("ID = ?", id).Delete(&entity.Account{})
+	err := RemoveAccount(account)
+	if err != nil {
+		log.Print(err)
+		c.Status(http.StatusInternalServerError)
+		return
+	}
 
 	c.Status(http.StatusOK)
 }
