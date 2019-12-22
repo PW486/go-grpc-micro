@@ -3,8 +3,8 @@ package server
 import (
 	"context"
 
-	"github.com/PW486/gost/database"
-	"github.com/PW486/gost/protobuf/match"
+	"github.com/PW486/go-grpc-micro/database"
+	"github.com/PW486/go-grpc-micro/protobuf/match"
 	"github.com/jinzhu/gorm"
 )
 

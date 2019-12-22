@@ -5,8 +5,8 @@ import (
 	"log"
 	"net"
 
-	"github.com/PW486/gost/config"
-	"github.com/PW486/gost/protobuf/match"
+	"github.com/PW486/go-grpc-micro/config"
+	"github.com/PW486/go-grpc-micro/protobuf/match"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )

@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/PW486/gost/config"
-	"github.com/PW486/gost/protobuf/match"
+	"github.com/PW486/go-grpc-micro/config"
+	"github.com/PW486/go-grpc-micro/protobuf/match"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"

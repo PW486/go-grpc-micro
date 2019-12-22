@@ -6,9 +6,9 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/PW486/gost/database"
-	"github.com/PW486/gost/entity"
-	"github.com/PW486/gost/router"
+	"github.com/PW486/go-grpc-micro/database"
+	"github.com/PW486/go-grpc-micro/entity"
+	"github.com/PW486/go-grpc-micro/router"
 	"github.com/stretchr/testify/assert"
 )
 

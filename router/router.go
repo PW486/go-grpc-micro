@@ -1,7 +1,7 @@
 package router
 
 import (
-	"github.com/PW486/gost/service/account"
+	"github.com/PW486/go-grpc-micro/service/account"
 	"github.com/gin-gonic/gin"
 )
 

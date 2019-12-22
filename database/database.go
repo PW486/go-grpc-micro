@@ -3,7 +3,7 @@ package database
 import (
 	"log"
 
-	"github.com/PW486/gost/config"
+	"github.com/PW486/go-grpc-micro/config"
 	"github.com/jinzhu/gorm"
 )
 

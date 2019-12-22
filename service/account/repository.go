@@ -3,10 +3,10 @@ package account
 import (
 	"log"
 
-	"github.com/PW486/gost/config"
-	"github.com/PW486/gost/database"
-	"github.com/PW486/gost/entity"
-	"github.com/PW486/gost/protobuf/match"
+	"github.com/PW486/go-grpc-micro/config"
+	"github.com/PW486/go-grpc-micro/database"
+	"github.com/PW486/go-grpc-micro/entity"
+	"github.com/PW486/go-grpc-micro/protobuf/match"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"

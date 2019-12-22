@@ -2,27 +2,48 @@
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/PW486/go-grpc-micro?style=flat-square)](https://goreportcard.com/report/github.com/PW486/go-grpc-micro)
 [![Go Doc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](http://godoc.org/github.com/PW486/go-grpc-micro)
+[![GitHub stars](https://img.shields.io/github/stars/PW486/go-grpc-micro.svg?style=flat-square&color=orange)](https://github.com/PW486/go-grpc-micro/stargazers)
+[![GitHub license](https://img.shields.io/github/license/PW486/go-grpc-micro.svg?style=flat-square&color=brown)](https://github.com/PW486/go-grpc-micro/blob/develop/LICENSE)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/PW486/go-grpc-micro.svg?color=blueviolet&style=flat-square)
 
 > Microservice implemented in Go with gRPC, REST.
 
-```sh
-curl -v -X POST http://localhost:8000/accounts -H 'Content-Type: application/json' -d '{ "email": "TestEmail442", "name": "TestName442", "password": "442" }'
-curl -v -X POST http://localhost:8080/accounts -H 'Content-Type: application/json' -d '{ "email": "TestEmail12345", "name": "TestName12345", "password": "123", "matchId": "acb2b6b6-ea49-408d-8d54-deb445efb9e8" }'
-curl -v -X POST http://localhost:8080/login -H 'Content-Type: application/json' -d '{ "email": "TestEmail486", "password": "486" }'
-curl -v -X DELETE http://localhost:8080/accounts/dd5ede2b-143d-11ea-a683-629c5497222b -H 'Content-Type: application/json'
+## Getting Started
 
-protoc protobuf/match/match.proto --go_out=plugins=grpc:.
+### Set Environments
+
+Change values in `app.ini` file.
+
+### Install, Build and Run
+
+```sh
+> go mod download
+> go build -o main
+> ./main
 ```
 
-## TODO
-- Testing
-- README.md
+### Generate protobuf.go file
 
-## Reference
-- https://github.com/gin-gonic/gin
-- https://github.com/jinzhu/gorm
-- https://github.com/dgrijalva/jwt-go
-- https://github.com/EDDYCJY/go-gin-example
-- https://github.com/gothinkster/golang-gin-realworld-example-app
-- https://github.com/golang-standards/project-layout
-- https://grpc.io/docs/tutorials/basic/go
+```sh
+> protoc protobuf/match/match.proto --go_out=plugins=grpc:.
+```
+
+### Testing
+
+```sh
+> go test
+```
+
+## Environments
+
+- Go
+- gRPC-Go
+- Gin
+- GORM
+- jwt-go
+- go-ini
+
+## License
+
+Copyright © 2019 [Donggeon Lim](https://github.com/PW486).<br />
+This project is [Unlicense](https://github.com/PW486/go-grpc-micro/blob/master/LICENSE) licensed.

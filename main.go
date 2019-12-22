@@ -3,11 +3,11 @@ package main
 import (
 	"fmt"
 
-	"github.com/PW486/gost/config"
-	"github.com/PW486/gost/database"
-	"github.com/PW486/gost/entity"
-	"github.com/PW486/gost/router"
-	"github.com/PW486/gost/server"
+	"github.com/PW486/go-grpc-micro/config"
+	"github.com/PW486/go-grpc-micro/database"
+	"github.com/PW486/go-grpc-micro/entity"
+	"github.com/PW486/go-grpc-micro/router"
+	"github.com/PW486/go-grpc-micro/server"
 	"github.com/gin-gonic/gin"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
