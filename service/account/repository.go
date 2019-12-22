@@ -43,7 +43,7 @@ func findAccountByEmail(email string) *entity.Account {
 
 // FindMatchAccountByID takes another service's account.
 func FindMatchAccountByID(c *gin.Context, id string) *match.GetMatchAccountByIDResponse {
-	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
+	conn, err := grpc.Dial(config.AppSetting.MatchHost, grpc.WithInsecure())
 	if err != nil {
 		log.Print(err)
 		return nil

@@ -9,13 +9,11 @@ import (
 type app struct {
 	RunMode    string
 	HTTPPort   int
+	RPCPort    int
+	MatchHost  string
 	JwtSecret  string
 	JwtExpire  int64
 	BcryptCost int
-}
-
-type rpcServer struct {
-	Port int
 }
 
 type database struct {
@@ -25,9 +23,6 @@ type database struct {
 
 // AppSetting is gin application settings.
 var AppSetting = &app{}
-
-// RPCServerSetting is gRPC server settings.
-var RPCServerSetting = &rpcServer{}
 
 // DatabaseSetting is GORM database settings.
 var DatabaseSetting = &database{}
@@ -43,7 +38,6 @@ func Init() {
 	}
 
 	mapTo("app", AppSetting)
-	mapTo("rpcserver", RPCServerSetting)
 	mapTo("database", DatabaseSetting)
 }
 

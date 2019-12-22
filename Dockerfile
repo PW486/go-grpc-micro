@@ -11,6 +11,8 @@ RUN go build -o main
 FROM scratch
 
 COPY --from=builder /app/main /
+COPY app.ini /
+
 EXPOSE 8080
 
 CMD ["/main"] 

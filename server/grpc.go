@@ -13,7 +13,7 @@ import (
 
 // Run serves gRPC server.
 func Run() {
-	port := fmt.Sprintf(":%d", config.RPCServerSetting.Port)
+	port := fmt.Sprintf(":%d", config.AppSetting.RPCPort)
 
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
