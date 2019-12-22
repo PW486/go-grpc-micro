@@ -1,5 +1,8 @@
 # Go gRPC Microservice (go-grpc-micro)
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/PW486/go-grpc-micro?style=flat-square)](https://goreportcard.com/report/github.com/PW486/go-grpc-micro)
+[![Go Doc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](http://godoc.org/github.com/PW486/go-grpc-micro)
+
 > Microservice implemented in Go with gRPC, REST.
 
 ```sh
@@ -12,7 +15,6 @@ protoc protobuf/match/match.proto --go_out=plugins=grpc:.
 ```
 
 ## TODO
-- Docker Compose + Envconfig
 - Testing
 - README.md
 

@@ -20,7 +20,7 @@ type LogInDTO struct {
 	Password string `json:"password" binding:"required"`
 }
 
-// FindAccountResponse is a reponse object.
+// FindAccountResponse is a response object.
 type FindAccountResponse struct {
 	ID        uuid.UUID  `json:"id"`
 	CreatedAt time.Time  `json:"createdAt"`

@@ -34,7 +34,7 @@ func FindAccountByID(id string) *FindAccountResponse {
 // findAccountByEmail finds one account by email in the database.
 func findAccountByEmail(email string) *entity.Account {
 	var account entity.Account
-	if database.GetDB().Where("Email = ?", email).First(&account).RecordNotFound() {
+	if database.GetDB().Where("email = ?", email).First(&account).RecordNotFound() {
 		return nil
 	}
 
