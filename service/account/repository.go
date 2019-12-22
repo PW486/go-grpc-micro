@@ -4,27 +4,32 @@ import (
 	"log"
 
 	"github.com/PW486/gost/database"
+	"github.com/PW486/gost/entity"
 	"github.com/PW486/gost/protobuf/match"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 	"google.golang.org/grpc"
 )
 
-func GetAccounts() *[]GetAccountResponse {
-	var accounts []GetAccountResponse
+func FindAccounts() *[]FindAccountResponse {
+	var accounts []FindAccountResponse
 	database.GetDB().Table("accounts").Where("deleted_at is null").Scan(&accounts)
 
 	return &accounts
 }
 
-func GetAccountById(id string) *GetAccountResponse {
-	var account GetAccountResponse
-	database.GetDB().Table("accounts").Where("id = ?", id).Scan(&account)
+func FindAccountByID(id string) *FindAccountResponse {
+	var account FindAccountResponse
+	if database.GetDB().Table("accounts").Where("id = ?", id).Scan(&account).RecordNotFound() {
+		return nil
+	}
 
 	return &account
 }
 
-// GetMatchAccountByID takes another service account.
-func GetMatchAccountByID(c *gin.Context, id string) *match.Account {
+// FindMatchAccountByID takes another service account.
+func FindMatchAccountByID(c *gin.Context, id string) *match.Account {
 	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
 	if err != nil {
 		log.Print(err)
@@ -37,8 +42,36 @@ func GetMatchAccountByID(c *gin.Context, id string) *match.Account {
 	req := &match.GetAccountRequest{Id: id}
 	res, err := client.GetAccount(c, req)
 	if err != nil {
+		log.Print(err)
 		return nil
 	}
 
 	return res
+}
+
+func CreateAccount(payload CreateAccountDTO) (*entity.Account, error) {
+	var newAccount entity.Account
+
+	uuid, err := uuid.NewRandom()
+	if err != nil {
+		return nil, err
+	}
+	newAccount.ID = uuid
+	newAccount.Email = payload.Email
+	newAccount.Name = payload.Name
+
+	password, err := bcrypt.GenerateFromPassword([]byte(payload.Password), 10)
+	if err != nil {
+		return nil, err
+	}
+	newAccount.Password = password
+	newAccount.Match = payload.Match
+
+	database.GetDB().Create(&newAccount)
+
+	return &newAccount, nil
+}
+
+func RemoveAccount(id string) {
+
 }

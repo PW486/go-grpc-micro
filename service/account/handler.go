@@ -1,50 +1,58 @@
 package account
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/PW486/gost/database"
 	"github.com/PW486/gost/entity"
+	"github.com/PW486/gost/protobuf/match"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
 // GetAccountsHandler finds all accounts.
 func GetAccountsHandler(c *gin.Context) {
-	accounts := GetAccounts()
+	accounts := FindAccounts()
 
-	c.JSON(200, gin.H{"accounts": accounts})
+	c.JSON(http.StatusOK, gin.H{"accounts": accounts})
 }
 
 // GetAccountByIDHandler finds one account.
 func GetAccountByIDHandler(c *gin.Context) {
 	id := c.Param("id")
-	account := GetAccountById(id)
-	matchAccount := GetMatchAccountByID(c, account.Match.String())
+	account := FindAccountByID(id)
+	if account == nil {
+		c.JSON(http.StatusNotFound, gin.H{"message": "Account Not Found"})
+		return
+	}
 
-	c.JSON(200, gin.H{"account": account, "match": matchAccount})
+	var matchAccount *match.Account
+	if account.Match != nil {
+		matchID := account.Match.String()
+		matchAccount = FindMatchAccountByID(c, matchID)
+	}
+
+	c.JSON(http.StatusOK, gin.H{"account": account, "matchAccount": matchAccount})
 }
 
-// PostHandler creates one account.
-func PostHandler(c *gin.Context) {
-	var createAccountDTO CreateAccountDTO
-	if err := c.ShouldBindJSON(&createAccountDTO); err != nil {
+// PostAccountHandler creates one account.
+func PostAccountHandler(c *gin.Context) {
+	var payload CreateAccountDTO
+	if err := c.ShouldBindJSON(&payload); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	var newAccount entity.Account
-	newAccount.ID, _ = uuid.NewUUID()
-	newAccount.Email = createAccountDTO.Email
-	newAccount.Name = createAccountDTO.Name
-	newAccount.Password, _ = bcrypt.GenerateFromPassword([]byte(createAccountDTO.Password), 10)
-	newAccount.Match = &createAccountDTO.Match
+	account, err := CreateAccount(payload)
+	if err != nil {
+		log.Print(err)
+		c.Status(http.StatusInternalServerError)
+		return
+	}
 
-	database.GetDB().Create(&newAccount)
-
-	c.JSON(201, gin.H{"data": newAccount})
+	c.JSON(http.StatusCreated, gin.H{"account": account})
 }
 
 // DeleteHandler removes one account.
@@ -53,7 +61,7 @@ func DeleteHandler(c *gin.Context) {
 
 	database.GetDB().Where("ID = ?", id).Delete(&entity.Account{})
 
-	c.JSON(200, "ok")
+	c.Status(http.StatusOK)
 }
 
 // LogInHandler verifies the account and returns token.
@@ -82,5 +90,5 @@ func LogInHandler(c *gin.Context) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	ss, _ := token.SignedString(mySigningKey)
 
-	c.JSON(200, gin.H{"token": ss})
+	c.JSON(http.StatusOK, gin.H{"token": ss})
 }

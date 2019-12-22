@@ -8,10 +8,10 @@ import (
 
 // CreateAccountDTO is a data transfer object.
 type CreateAccountDTO struct {
-	Email    string    `json:"email" binding:"required"`
-	Name     string    `json:"name" binding:"required"`
-	Password string    `json:"password" binding:"required"`
-	Match    uuid.UUID `json:"match"`
+	Email    string     `json:"email" binding:"required"`
+	Name     string     `json:"name" binding:"required"`
+	Password string     `json:"password" binding:"required"`
+	Match    *uuid.UUID `json:"match"`
 }
 
 // LogInDTO is a data transfer object.
@@ -20,7 +20,7 @@ type LogInDTO struct {
 	Password string `json:"password" binding:"required"`
 }
 
-type GetAccountResponse struct {
+type FindAccountResponse struct {
 	ID        uuid.UUID  `json:"id"`
 	CreatedAt time.Time  `json:"createdAt"`
 	UpdatedAt time.Time  `json:"updatedAt"`

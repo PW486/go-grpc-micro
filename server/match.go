@@ -4,15 +4,17 @@ import (
 	"context"
 
 	"github.com/PW486/gost/database"
-	"github.com/PW486/gost/entity"
 	"github.com/PW486/gost/protobuf/match"
+	"github.com/jinzhu/gorm"
 )
 
 type matchServer struct{}
 
 func (s *matchServer) GetAccount(ctx context.Context, in *match.GetAccountRequest) (*match.Account, error) {
-	var account entity.Account
-	database.GetDB().Where("ID = ?", in.Id).First(&account)
+	var account match.Account
+	if err := database.GetDB().Table("accounts").Where("id = ?", in.Id).Scan(&account).Error; gorm.IsRecordNotFoundError(err) {
+		return nil, err
+	}
 
-	return &match.Account{Id: in.Id, Email: account.Email, Name: account.Name}, nil
+	return &account, nil
 }
