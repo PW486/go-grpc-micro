@@ -20,7 +20,7 @@ func TestMain(t *testing.T) {
 	db.AutoMigrate(&entity.Account{})
 }
 
-func TestSuccessGetRootRoute(t *testing.T) {
+func TestSuccessGetAccounts(t *testing.T) {
 	router := router.Init()
 
 	w := httptest.NewRecorder()
@@ -31,10 +31,10 @@ func TestSuccessGetRootRoute(t *testing.T) {
 	assert.Equal(t, http.StatusOK, w.Code)
 }
 
-func TestSuccessCreateRootRoute(t *testing.T) {
+func TestSuccessPostAccount(t *testing.T) {
 	router := router.Init()
 
-	var jsonStr = []byte(`{ "email": "TestEmail", "name": "TestName", "password": "abc" }`)
+	var jsonStr = []byte(`{ "email": "TestEmail", "name": "TestName", "password": "486" }`)
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/accounts", bytes.NewBuffer(jsonStr))
 	req.Header.Add("Content-Type", "application/json")
@@ -44,7 +44,7 @@ func TestSuccessCreateRootRoute(t *testing.T) {
 	assert.Equal(t, http.StatusCreated, w.Code)
 }
 
-func TestValidationErrorCreateRootRoute(t *testing.T) {
+func TestValidationErrorPostAccount(t *testing.T) {
 	router := router.Init()
 
 	var jsonStr = []byte(`{ "email": "TestEmail" }`)
@@ -57,10 +57,10 @@ func TestValidationErrorCreateRootRoute(t *testing.T) {
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 }
 
-func TestLogInSucceed(t *testing.T) {
+func TestSuccessLogIn(t *testing.T) {
 	router := router.Init()
 
-	var jsonStr = []byte(`{ "email": "TestEmail", "password": "abc" }`)
+	var jsonStr = []byte(`{ "email": "TestEmail", "password": "486" }`)
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/login", bytes.NewBuffer(jsonStr))
 	req.Header.Add("Content-Type", "application/json")
@@ -70,10 +70,10 @@ func TestLogInSucceed(t *testing.T) {
 	assert.Equal(t, http.StatusOK, w.Code)
 }
 
-func TestLogInFailed(t *testing.T) {
+func TestFailureLogIn(t *testing.T) {
 	router := router.Init()
 
-	var jsonStr = []byte(`{ "email": "TestEmail", "password": "aaa" }`)
+	var jsonStr = []byte(`{ "email": "TestEmail", "password": "123" }`)
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/login", bytes.NewBuffer(jsonStr))
 	req.Header.Add("Content-Type", "application/json")
@@ -83,7 +83,7 @@ func TestLogInFailed(t *testing.T) {
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 }
 
-func TestLogInValidationFailed(t *testing.T) {
+func TestValidationErrorLogIn(t *testing.T) {
 	router := router.Init()
 
 	var jsonStr = []byte(`{ "email": "TestEmail" }`)

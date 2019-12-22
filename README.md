@@ -12,7 +12,7 @@
 
 ### Set Environments
 
-Change values in `app.ini` file. Set other ports and other `MatchHost`.
+Change values in `app.ini` file. Set other ports and other `MatchHost`. You can set the `MatchHost` to another server instead of the localhost, and turn more than one server to enable **gRPC service-to-service communication**.
 
 ### Install, Build and Run
 
