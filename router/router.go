@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Init is to return the gin router.
+// Init returns the gin router.
 func Init() *gin.Engine {
 	r := gin.Default()
 

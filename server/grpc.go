@@ -9,7 +9,7 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-// Run is to serve gRPC server.
+// Run serves gRPC server.
 func Run() {
 	lis, err := net.Listen("tcp", ":50051")
 	if err != nil {

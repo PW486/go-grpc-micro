@@ -3,9 +3,8 @@ package account
 import (
 	"log"
 	"net/http"
+	"time"
 
-	"github.com/PW486/gost/database"
-	"github.com/PW486/gost/entity"
 	"github.com/PW486/gost/protobuf/match"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -45,7 +44,7 @@ func PostAccountHandler(c *gin.Context) {
 		return
 	}
 
-	account, err := CreateAccount(payload)
+	account, err := createAccount(payload)
 	if err != nil {
 		log.Print(err)
 		c.Status(http.StatusInternalServerError)
@@ -64,7 +63,7 @@ func DeleteAccountHandler(c *gin.Context) {
 		return
 	}
 
-	err := RemoveAccount(account)
+	err := removeAccountByID(id)
 	if err != nil {
 		log.Print(err)
 		c.Status(http.StatusInternalServerError)
@@ -76,29 +75,32 @@ func DeleteAccountHandler(c *gin.Context) {
 
 // LogInHandler verifies the account and returns token.
 func LogInHandler(c *gin.Context) {
-	var logInDTO LogInDTO
-	if err := c.ShouldBindJSON(&logInDTO); err != nil {
+	var payload LogInDTO
+	if err := c.ShouldBindJSON(&payload); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	var account entity.Account
-	database.GetDB().Where("Email = ?", logInDTO.Email).First(&account)
-
-	if err := bcrypt.CompareHashAndPassword(account.Password, []byte(logInDTO.Password)); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	account := findAccountByEmail(payload.Email)
+	if account == nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Email or Password Not Valid"})
+		return
+	}
+	if err := bcrypt.CompareHashAndPassword(account.Password, []byte(payload.Password)); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Email or Password Not Valid"})
 		return
 	}
 
-	mySigningKey := []byte("AllYourBase")
-
-	claims := &jwt.StandardClaims{
-		ExpiresAt: 15000,
-		Issuer:    "test",
-	}
-
+	var expiredTime int64 = 60 * 60 * 24
+	claims := &jwt.StandardClaims{ExpiresAt: time.Now().Unix() + expiredTime}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	ss, _ := token.SignedString(mySigningKey)
+	signingKey := []byte("PW486")
+	signedString, err := token.SignedString(signingKey)
+	if err != nil {
+		log.Print(err)
+		c.Status(http.StatusInternalServerError)
+		return
+	}
 
-	c.JSON(http.StatusOK, gin.H{"token": ss})
+	c.JSON(http.StatusOK, gin.H{"token": signedString})
 }

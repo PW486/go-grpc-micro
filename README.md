@@ -4,7 +4,7 @@
 
 ```sh
 curl -v -X POST http://localhost:8080/accounts -H 'Content-Type: application/json' -d '{ "email": "TestEmail55", "name": "TestName55", "password": "abc", "match": "9d01cbba-1440-11ea-b252-629c5497222b" }'
-curl -v -X POST http://localhost:8080/login -H 'Content-Type: application/json' -d '{ "email": "TestEmail", "password": "abc" }'
+curl -v -X POST http://localhost:8080/login -H 'Content-Type: application/json' -d '{ "email": "TestEmail55", "password": "abc" }'
 curl -v -X DELETE http://localhost:8080/accounts/dd5ede2b-143d-11ea-a683-629c5497222b -H 'Content-Type: application/json'
 
 protoc -I match/ match/match.proto --go_out=plugins=grpc:match

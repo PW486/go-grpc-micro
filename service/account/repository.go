@@ -12,6 +12,7 @@ import (
 	"google.golang.org/grpc"
 )
 
+// FindAccounts finds all accounts in the database.
 func FindAccounts() *[]FindAccountResponse {
 	var accounts []FindAccountResponse
 	database.GetDB().Table("accounts").Where("deleted_at is null").Scan(&accounts)
@@ -19,6 +20,7 @@ func FindAccounts() *[]FindAccountResponse {
 	return &accounts
 }
 
+// FindAccountByID finds one account by id in the database.
 func FindAccountByID(id string) *FindAccountResponse {
 	var account FindAccountResponse
 	if database.GetDB().Table("accounts").Where("id = ?", id).Scan(&account).RecordNotFound() {
@@ -28,7 +30,17 @@ func FindAccountByID(id string) *FindAccountResponse {
 	return &account
 }
 
-// FindMatchAccountByID takes another service account.
+// findAccountByEmail finds one account by email in the database.
+func findAccountByEmail(email string) *entity.Account {
+	var account entity.Account
+	if database.GetDB().Where("Email = ?", email).First(&account).RecordNotFound() {
+		return nil
+	}
+
+	return &account
+}
+
+// FindMatchAccountByID takes another service's account.
 func FindMatchAccountByID(c *gin.Context, id string) *match.Account {
 	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
 	if err != nil {
@@ -49,7 +61,8 @@ func FindMatchAccountByID(c *gin.Context, id string) *match.Account {
 	return res
 }
 
-func CreateAccount(payload CreateAccountDTO) (*entity.Account, error) {
+// createAccount creates one account for the database.
+func createAccount(payload CreateAccountDTO) (*entity.Account, error) {
 	var newAccount entity.Account
 
 	uuid, err := uuid.NewRandom()
@@ -74,8 +87,9 @@ func CreateAccount(payload CreateAccountDTO) (*entity.Account, error) {
 	return &newAccount, nil
 }
 
-func RemoveAccount(account *FindAccountResponse) error {
-	if err := database.GetDB().Where("ID = ?", account.ID).Delete(&entity.Account{}).Error; err != nil {
+// removeAccountByID removes one account by id for the database.
+func removeAccountByID(id string) error {
+	if err := database.GetDB().Where("id = ?", id).Delete(&entity.Account{}).Error; err != nil {
 		return err
 	}
 
