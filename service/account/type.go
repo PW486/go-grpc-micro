@@ -11,7 +11,7 @@ type CreateAccountDTO struct {
 	Email    string     `json:"email" binding:"required"`
 	Name     string     `json:"name" binding:"required"`
 	Password string     `json:"password" binding:"required"`
-	Match    *uuid.UUID `json:"match"`
+	MatchID  *uuid.UUID `json:"matchId"`
 }
 
 // LogInDTO is a data transfer object.
@@ -28,5 +28,5 @@ type FindAccountResponse struct {
 	DeletedAt *time.Time `json:"deletedAt"`
 	Email     string     `json:"email"`
 	Name      string     `json:"name"`
-	Match     *uuid.UUID `json:"match"`
+	MatchID   *uuid.UUID `json:"matchId"`
 }

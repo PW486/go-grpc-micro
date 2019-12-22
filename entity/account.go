@@ -15,5 +15,5 @@ type Account struct {
 	Email     string `gorm:"unique;not null"`
 	Name      string `gorm:"unique;not null"`
 	Password  []byte `gorm:"not null"`
-	Match     *uuid.UUID
+	MatchID   *uuid.UUID
 }

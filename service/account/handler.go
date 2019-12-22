@@ -27,9 +27,9 @@ func GetAccountByIDHandler(c *gin.Context) {
 		return
 	}
 
-	var matchAccount *match.Account
-	if account.Match != nil {
-		matchID := account.Match.String()
+	var matchAccount *match.GetMatchAccountByIDResponse
+	if account.MatchID != nil {
+		matchID := account.MatchID.String()
 		matchAccount = FindMatchAccountByID(c, matchID)
 	}
 

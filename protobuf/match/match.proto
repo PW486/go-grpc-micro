@@ -3,15 +3,16 @@ syntax = "proto3";
 package match;
 
 service Match {
-  rpc GetAccount (GetAccountRequest) returns (Account) {}
+  rpc GetMatchAccountByID (GetMatchAccountByIDRequest) returns (GetMatchAccountByIDResponse) {}
 }
 
-message GetAccountRequest {
+message GetMatchAccountByIDRequest {
   string id = 1;
 }
 
-message Account {
+message GetMatchAccountByIDResponse {
   string id = 1;
   string email = 2;
   string name = 3;
 }
+

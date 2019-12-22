@@ -7,7 +7,7 @@ curl -v -X POST http://localhost:8080/accounts -H 'Content-Type: application/jso
 curl -v -X POST http://localhost:8080/login -H 'Content-Type: application/json' -d '{ "email": "TestEmail55", "password": "abc" }'
 curl -v -X DELETE http://localhost:8080/accounts/dd5ede2b-143d-11ea-a683-629c5497222b -H 'Content-Type: application/json'
 
-protoc -I match/ match/match.proto --go_out=plugins=grpc:match
+protoc protobuf/match/match.proto --go_out=plugins=grpc:.
 ```
 
 ## TODO

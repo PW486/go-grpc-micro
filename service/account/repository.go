@@ -41,7 +41,7 @@ func findAccountByEmail(email string) *entity.Account {
 }
 
 // FindMatchAccountByID takes another service's account.
-func FindMatchAccountByID(c *gin.Context, id string) *match.Account {
+func FindMatchAccountByID(c *gin.Context, id string) *match.GetMatchAccountByIDResponse {
 	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
 	if err != nil {
 		log.Print(err)
@@ -51,8 +51,8 @@ func FindMatchAccountByID(c *gin.Context, id string) *match.Account {
 
 	client := match.NewMatchClient(conn)
 
-	req := &match.GetAccountRequest{Id: id}
-	res, err := client.GetAccount(c, req)
+	req := &match.GetMatchAccountByIDRequest{Id: id}
+	res, err := client.GetMatchAccountByID(c, req)
 	if err != nil {
 		log.Print(err)
 		return nil
@@ -78,7 +78,7 @@ func createAccount(payload CreateAccountDTO) (*entity.Account, error) {
 		return nil, err
 	}
 	newAccount.Password = password
-	newAccount.Match = payload.Match
+	newAccount.MatchID = payload.MatchID
 
 	if err := database.GetDB().Create(&newAccount).Error; err != nil {
 		return nil, err
