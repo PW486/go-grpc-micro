@@ -1,9 +1,11 @@
 package server
 
 import (
+	"fmt"
 	"log"
 	"net"
 
+	"github.com/PW486/gost/config"
 	"github.com/PW486/gost/protobuf/match"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -11,7 +13,9 @@ import (
 
 // Run serves gRPC server.
 func Run() {
-	lis, err := net.Listen("tcp", ":50051")
+	port := fmt.Sprintf(":%d", config.RPCServerSetting.Port)
+
+	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Fatal(err)
 	}

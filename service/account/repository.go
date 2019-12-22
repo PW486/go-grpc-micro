@@ -3,6 +3,7 @@ package account
 import (
 	"log"
 
+	"github.com/PW486/gost/config"
 	"github.com/PW486/gost/database"
 	"github.com/PW486/gost/entity"
 	"github.com/PW486/gost/protobuf/match"
@@ -73,7 +74,7 @@ func createAccount(payload CreateAccountDTO) (*entity.Account, error) {
 	newAccount.Email = payload.Email
 	newAccount.Name = payload.Name
 
-	password, err := bcrypt.GenerateFromPassword([]byte(payload.Password), 10)
+	password, err := bcrypt.GenerateFromPassword([]byte(payload.Password), config.AppSetting.BcryptCost)
 	if err != nil {
 		return nil, err
 	}

@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/PW486/gost/config"
 	"github.com/PW486/gost/protobuf/match"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -91,10 +92,11 @@ func LogInHandler(c *gin.Context) {
 		return
 	}
 
-	var expiredTime int64 = 60 * 60 * 24
-	claims := &jwt.StandardClaims{ExpiresAt: time.Now().Unix() + expiredTime}
+	expiredTime := time.Now().Unix() + config.AppSetting.JwtExpire
+	claims := &jwt.StandardClaims{ExpiresAt: expiredTime}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	signingKey := []byte("PW486")
+
+	signingKey := []byte(config.AppSetting.JwtSecret)
 	signedString, err := token.SignedString(signingKey)
 	if err != nil {
 		log.Print(err)

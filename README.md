@@ -12,14 +12,15 @@ protoc protobuf/match/match.proto --go_out=plugins=grpc:.
 ```
 
 ## TODO
+- Docker Compose + Envconfig
 - Testing
-- Envconfig
-- Dockerize
+- README.md
 
 ## Reference
 - https://github.com/gin-gonic/gin
 - https://github.com/jinzhu/gorm
 - https://github.com/dgrijalva/jwt-go
 - https://github.com/EDDYCJY/go-gin-example
+- https://github.com/gothinkster/golang-gin-realworld-example-app
 - https://github.com/golang-standards/project-layout
 - https://grpc.io/docs/tutorials/basic/go
