@@ -13,5 +13,11 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag go-grpc-micro
       
+    - name: Docker image
+      run: docker images
+      
     - name: Run the Docker image
       run: docker run --expose 8080 go-grpc-micro
+      
+    - name: Docker container
+      run: docker ps
