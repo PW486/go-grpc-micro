@@ -10,14 +10,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag go-grpc-micro
       
-    - name: Docker image
-      run: docker images
+    - name: Build the Docker image
+      run: docker build -t go-grpc-micro .
+      
+    - name: Show the Docker image list
+      run: docker image ls
       
     - name: Run the Docker image
-      run: docker run --expose 8080 go-grpc-micro
+      run: docker run -d -p 8080:8080 go-grpc-micro
       
-    - name: Docker container
-      run: docker ps
+    - name: Find Running containers
+      run: docker container ls
