@@ -15,4 +15,3 @@ message GetMatchAccountByIDResponse {
   string email = 2;
   string name = 3;
 }
-

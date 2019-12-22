@@ -12,6 +12,8 @@ protoc protobuf/match/match.proto --go_out=plugins=grpc:.
 ```
 
 ## TODO
+- Testing
+- Envconfig
 - Dockerize
 
 ## Reference
