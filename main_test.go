@@ -6,6 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/PW486/go-grpc-micro/config"
 	"github.com/PW486/go-grpc-micro/database"
 	"github.com/PW486/go-grpc-micro/entity"
 	"github.com/PW486/go-grpc-micro/router"
@@ -13,6 +14,8 @@ import (
 )
 
 func TestMain(t *testing.T) {
+	config.Init()
+
 	db := database.Init()
 	db.AutoMigrate(&entity.Account{})
 }

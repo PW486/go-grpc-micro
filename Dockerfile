@@ -15,4 +15,4 @@ COPY app.ini /
 
 EXPOSE 8080
 
-CMD ["/main"] 
+CMD ["/main"]
